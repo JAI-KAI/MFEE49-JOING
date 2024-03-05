@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>貼文主貼文詳情</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <script src="./js/jquery-3.6.0.js"></script>
+    <style>
+        :root {
+            --dark_blue:#22668D;
+            --dark_orange:#FFCC70;
+            --light_blue:#8ECDDD;
+            --light_orange:#FFDD95;
+        }
+        .lightog {
+            color: var(--light_orange);
+        }
+        .nav {
+            border: 1px solid black;
+            height: 100px;
+            display: flex;
+            margin: 20px 50px;
+        }
+        .nav > *{
+            border: 1px solid black;
+            align-self: center;
+            margin: 10px;
+        }
+        .dot {
+            height: 40px;
+            width: 40px;
+            background-color: #bbb;
+            border-radius: 50%;
+        }
+        section {
+            display: flex;
+            /* border: 1px solid black; */
+            width: 80%;
+            margin: 100px auto;
+        }
+        article {
+            /* border: 1px solid black; */
+            flex: 60%;
+        }
+        #eventimg > img {
+            height: 100%;
+            width: 100%;
+            object-fit: cover;
+        }
+        #content {
+            width: 90%;
+            margin: auto;
+        }
+        #posttitle {
+            display: flex;
+            font-size: 32px;
+        }
+        #hostname {
+            font-size: 18px;
+            font-weight: bold;
+            margin-left: 5px;
+            align-self: center;
+        }
+        #bnedit {
+            margin-left: auto;
+            font-size: 18px;
+            font-weight: bolder;
+            padding: 5px 20px;
+            border-radius: 5px;
+            background-color: var(--dark_blue);
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        #content p {
+            font-size: 18px;
+            font-weight: bold;
+            margin-top: 15px;
+        }
+        article p > span {
+            all: initial; 
+            font-weight: bold;
+            margin-left: 15px;
+        }
+        aside {
+            /* border: 1px solid black;/ */
+            margin-left: 3%;
+            flex:40%
+        }
+        aside  h2 {
+            text-align: center;
+            font-size: 32px;
+            padding: 10px;
+            margin-top: 0;
+            border-bottom: 1px solid black;
+        }
+        #chatroom {
+            position: relative;
+            border: 2px solid var(--dark_orange);
+            height: 75vh;
+        }
+        #member {
+            width: 95%;
+            margin: auto;
+        }
+        .memberinfo {
+            border-bottom: 1px solid black;
+            margin-bottom: 50px;
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        .memberimg, #hostimg {
+            align-self: center;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+        }
+        .mambername {
+            font-size: 18px;
+            font-weight: bold;
+            margin-left: 5px;
+        }
+        .mambername + span {
+            font-size: 14px;
+            margin-left: 5px;
+        }
+        .bnreport {
+            font-family:'Bootstrap-icons';
+            cursor: pointer;
+            margin-left: auto;
+            background-color:initial;
+            border: none;
+            color: var(--light_orange);
+            font-size: 20px;
+        }
+        .chatcontent {
+            width: 90%;
+            margin: 10px 0 10px 45px;
+        }
+        #chatroom input {
+            font-size: 20px;
+            position: absolute;
+            bottom: 0;
+            height: 50px;
+            width: 100%;
+            text-indent: 5px;
+            border-style: none;
+            border-top-style:ridge;
+            border-color: black;
+            border-width: 2px;
+            padding-block: 0;
+            padding-inline: 0; 
+            padding: initial;
+            /* outline: none; */
+            outline-color: #8ECDDD;
+        }
+        #chatroom input:focus {
+            border:none;  
+        }
+        #bnsend {
+            font-family:'Bootstrap-icons';
+            font-size: 25px;
+            cursor: pointer;
+            position: absolute;
+            border: none;
+            padding: 0;
+            background-color: initial;
+            color: grey;
+            bottom: 10px;
+            right: 10px;
+            transition: all 0.1s ease;
+        }
+        #bnsend:hover {
+            scale: 1.1;
+            font-weight: 900;
+            color: var(--light_blue);
+        }
+        #joinlist {
+            margin-top: 5%;
+            border: 2px solid var(--dark_blue);
+        }
+        .eventnumber {
+            font-size: 20px;
+            font-weight: bold;
+            display: flex;
+            padding: 10px;
+            border-bottom: 2px solid black;
+            align-items: center;
+        }
+        .eventnumber > span {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-left: 15px;
+            width: 30px;
+            height: 30px;
+            background-color: lightgray;
+            border-radius: 60%;
+        }
+        .joinimg {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            padding: 10px;
+        }
+        #applycontent {
+            border-bottom: 2px solid black;
+            display: flex;
+            flex-wrap: wrap;
+            /* justify-content: space-evenly; */
+            align-content: flex-start;
+        }
+
+        /* 需調整 */
+        .applyperson {
+            align-self: center;
+            padding: 10px 15px;
+            margin: 10px 20px;
+            border: 1px solid black;
+        }
+        .applyperson > img {
+            position: relative;
+            /* top: 50%;  */
+            left: 50%;
+            transform: translate(-50%, 0);
+        }
+        .select {
+            display: flex;
+        }
+        .bnagree {
+            font-size: 16px;
+            font-weight: bolder;
+            text-wrap: nowrap;
+            padding: 5px;
+            border-radius: 5px;
+            background-color: var(--dark_orange);
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        .bnreject {
+            font-size: 16px;
+            font-weight: bolder;
+            text-wrap: nowrap;
+            padding: 5px;
+            border-radius: 5px;
+            background-color: var(--dark_blue);
+            color: white;
+            border: none;
+            cursor: pointer;
+            margin-left: 10px;
+        }
+        #join > img {
+            vertical-align: middle
+        }
+        
+        footer {
+            border: 1px solid black;
+            height: 200px;
+            margin-top: 100px;
+            display: flex;
+        }
+        footer > h1{
+            font-size: 100px;
+            margin: auto;
+        }
+    
+    </style>
+</head>
+<body>
+    <script>
+        $(function() {
+            var x = $('#eventimg').css("width")
+            console.log(x , $('#eventimg').css("height"))
+            var y = parseInt(x) * 0.75;
+            $('#eventimg').css("height", y)
+            console.log(x , $('#eventimg').css("height"))
+        })
+        
+    </script>
+    <div class="nav">
+        <h1 style="flex-grow: 1;">LOGO</h1>
+        <h3>LINK</h3>
+        <h3>LINK</h3>
+        <h3>LINK</h3>
+        <span class="dot"></span>
+    </div>
+    <section>
+        <article>
+            <div id="eventimg"><img src="./img/avalon.jpg" id="postimg"></div>
+            <div id="content">
+                <p style="display:flex;">
+                    <img id="hostimg" src="./img/coffee.jpg">
+                    <span id="hostname">會員名稱</span>
+                    <button id="bnedit">編輯</button>
+                </p>
+                <h2 id="posttitle">一起來打桌遊</h2>
+                <p>揪團時間 <span>2024/02/30</span></p>
+                <p>活動時間 <span>2024/02/30</span></p>
+                <p>最低人數 <span>2人</span></p>
+                <p>最高人數 <span>8人</span></p>
+                <p>活動地點 <span>台中市</span></p>
+                <p>活動費用 <span>100$</span></p>
+                <p id="remark">內容內容內容內容內容內容內容內容內容內容內容內容內容內容內容內容內容內容內容內容內容內容內容內容內容內容內容內容</div>
+            </div>
+        </article>
+        <aside>
+            <div id="chatroom">
+                <h2 class="lightog">揪團討論ING</h2>
+                <div id="member">
+                    <div class="memberinfo">
+                        <img class="memberimg" src="./img/coffee.jpg">
+                        <span class="mambername">會員名稱</span><button class="bnreport">&#xF5D4</button><br>
+                        <div class="chatcontent">討內容討論內容討論內容討論內容討論內容討論內容討論內容討論內容討論內容討論內容內容討論內容討論內容討論內容討論內容討論內容</div>
+                    </div>
+                    <div class="memberinfo">
+                        <img class="memberimg" src="./img/coffee.jpg">
+                        <span class="mambername lightog">會員名稱</span><span class="lightog">(貼文主)</span><button class="bnreport">&#xF5D4</button><br>
+                        <div class="chatcontent">討論內容討論內容討論內容討論內容討論內容討論內容討論內容討論內容討論內容討論內容內容討論內容討論內容討論內容討論內容討論內容</div>
+                    </div>
+                </div>
+                <input type="text" placeholder="請輸入文字...">
+                <button id="bnsend">&#xF6C0</button>
+            </div>
+            <div id="joinlist">
+                <div id="apply">
+                    <div class="eventnumber">申請參加<span style="background-color: var(--light_orange);">2</span></div>
+                    <div id="applycontent">
+                        <div class="applyperson">
+                            <img class="joinimg" src="./img/coffee.jpg">    
+                            <div class="select">
+                                <button class="bnagree">參加</button>
+                                <button class="bnreject">拒絕</button>
+                            </div>
+                        </div>
+                        <div class="applyperson">
+                            <img class="joinimg" src="./img/coffee.jpg">    
+                            <div class="select">
+                                <button class="bnagree">參加</button>
+                                <button class="bnreject">拒絕</button>
+                            </div>
+                        </div>
+                        <div class="applyperson">
+                            <img class="joinimg" src="./img/coffee.jpg">    
+                            <div class="select">
+                                <button class="bnagree">參加</button>
+                                <button class="bnreject">拒絕</button>
+                            </div>
+                        </div>
+                        <div class="applyperson">
+                            <img class="joinimg" src="./img/coffee.jpg">    
+                            <div class="select">
+                                <button class="bnagree">參加</button>
+                                <button class="bnreject">拒絕</button>
+                            </div>
+                        </div>
+                        <div class="applyperson">
+                            <img class="joinimg" src="./img/coffee.jpg">    
+                            <div class="select">
+                                <button class="bnagree">參加</button>
+                                <button class="bnreject">拒絕</button>
+                            </div>
+                        </div>
+                    </div>   
+                </div>
+                <div id="join">
+                    <div class="eventnumber">已參加<span style="background-color: var(--light_blue);">5</span></div>
+                    <img class="joinimg" src="./img/coffee.jpg">
+                    <img class="joinimg" src="./img/coffee.jpg">
+                    <img class="joinimg" src="./img/coffee.jpg">
+                    <img class="joinimg" src="./img/coffee.jpg">
+                    <img class="joinimg" src="./img/coffee.jpg">
+                </div>
+            </div>
+                
+        </aside>
+    </section>
+
+    <footer>
+        <h1>Footer</h1>
+    </footer>
+
+</body>
+</html>
